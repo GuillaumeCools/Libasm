@@ -6,7 +6,7 @@
 #    By: gcools <gcools@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/13 14:24:28 by gcools            #+#    #+#              #
-#    Updated: 2026/04/13 15:37:07 by gcools           ###   ########.fr        #
+#    Updated: 2026/04/14 12:02:28 by gcools           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ INCLUDE = -I includes
 SRCS_DIR = srcs/
 				
 C_SRCS = main.c
-S_SRCS = ft_strlen.s		
+S_SRCS = ft_strlen.s ft_strcpy.s ft_strcmp.s	
 
 OBJS = $(C_SRCS:.c=.o) $(S_SRCS:.s=.o)
 
