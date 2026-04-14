@@ -6,16 +6,19 @@
 /*   By: gcools <gcools@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:30:36 by gcools            #+#    #+#             */
-/*   Updated: 2026/04/14 12:14:05 by gcools           ###   ########.fr       */
+/*   Updated: 2026/04/14 14:54:31 by gcools           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
 
 size_t  ft_strlen(const char *str);
 char    *ft_strcpy(char *dest, const char *str);
 int     ft_strcmp(char *s1, char *s2);
+ssize_t ft_write(int fd, char *str,size_t lenght);
 
 int main(void)
 {
@@ -41,6 +44,12 @@ int main(void)
     
     printf("--------------------------------\n");
     
+    printf("\nft_write: %ld\n", ft_write(-1, "test", 5));
+    printf("errno ft_write: %d\n", errno);
+    printf("\nwrite : %ld\n", write(-1, "test", 5));
+    printf("errno write: %d\n", errno);
+    
+    printf("--------------------------------\n");
 
     return (0);
 }
