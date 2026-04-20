@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guillaumecools <guillaumecools@student.    +#+  +:+       +#+        */
+/*   By: gcools <gcools@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 15:30:36 by gcools            #+#    #+#             */
-/*   Updated: 2026/04/20 11:55:45 by guillaumeco      ###   ########.fr       */
+/*   Updated: 2026/04/20 12:05:43 by gcools           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,12 @@ int main(void)
 {
     char    *str = "Hello, World!";
     char    dest[50];
-    char    my_dest[50];
-    char    *s1 = "tesa";
-    char    *s2 = "test";
-    char    *s3 = "test";
-    char    *s4 = "test";
     char    buf[100];
-    char    my_buf[100];
     ssize_t ret;
-    ssize_t my_ret;
     char    *dup;
-    char    *my_dup;
 
-    // ===== ft_strlen =====
-    printf("========== ft_strlen ==========\n");
+    // ===== FT_STRLEN =====
+    printf("========== FT_STRLEN ==========\n");
     printf("ft_strlen(\"Hello, World!\") : %zu\n", ft_strlen(str));
     printf("strlen(\"Hello, World!\")    : %zu\n", strlen(str));
     printf("ft_strlen(\"\")              : %zu\n", ft_strlen(""));
@@ -48,100 +40,97 @@ int main(void)
     printf("ft_strlen(\"a\")             : %zu\n", ft_strlen("a"));
     printf("strlen(\"a\")                : %zu\n", strlen("a"));
 
-    // ===== ft_strcpy =====
-    printf("\n========== ft_strcpy ==========\n");
+    // ===== FT_STRCPY =====
+    printf("\n========== FT_STRCPY ==========\n");
     printf("ft_strcpy(dest, \"Hello, World!\") : %s\n", ft_strcpy(dest, str));
-    printf("strcpy(dest, \"Hello, World!\")    : %s\n", strcpy(my_dest, str));
-    printf("ft_strcpy(dest, \"\")              : %s\n", ft_strcpy(dest, ""));
-    printf("strcpy(dest, \"\")                 : %s\n", strcpy(my_dest, ""));
+    printf("strcpy(dest, \"Hello, World!\")    : %s\n", strcpy(dest, str));
+    printf("ft_strcpy(dest, \"\")              : [%s]\n", ft_strcpy(dest, ""));
+    printf("strcpy(dest, \"\")                 : [%s]\n", strcpy(dest, ""));
+    printf("ft_strcpy(dest, \"a\")             : %s\n", ft_strcpy(dest, "a"));
+    printf("strcpy(dest, \"a\")                : %s\n", strcpy(dest, "a"));
 
-    // ===== ft_strcmp =====
-    printf("\n========== ft_strcmp ==========\n");
-    printf("ft_strcmp(\"tesa\", \"test\") : %d\n", ft_strcmp(s1, s2));
-    printf("strcmp(\"tesa\", \"test\")    : %d\n", strcmp(s1, s2));
-    printf("ft_strcmp(\"test\", \"test\") : %d\n", ft_strcmp(s3, s4));
-    printf("strcmp(\"test\", \"test\")    : %d\n", strcmp(s3, s4));
-    printf("ft_strcmp(\"test\", \"tesa\") : %d\n", ft_strcmp(s2, s1));
-    printf("strcmp(\"test\", \"tesa\")    : %d\n", strcmp(s2, s1));
+    // ===== FT_STRCMP =====
+    printf("\n========== FT_STRCMP ==========\n");
+    printf("ft_strcmp(\"tesa\", \"test\") : %d\n", ft_strcmp("tesa", "test"));
+    printf("strcmp(\"tesa\", \"test\")    : %d\n", strcmp("tesa", "test"));
+    printf("ft_strcmp(\"test\", \"test\") : %d\n", ft_strcmp("test", "test"));
+    printf("strcmp(\"test\", \"test\")    : %d\n", strcmp("test", "test"));
+    printf("ft_strcmp(\"test\", \"tesa\") : %d\n", ft_strcmp("test", "tesa"));
+    printf("strcmp(\"test\", \"tesa\")    : %d\n", strcmp("test", "tesa"));
     printf("ft_strcmp(\"\", \"\")          : %d\n", ft_strcmp("", ""));
     printf("strcmp(\"\", \"\")             : %d\n", strcmp("", ""));
 
-    // ===== ft_write =====
-    printf("\n========== ft_write ==========\n");
+    // ===== FT_WRITE =====
+    printf("\n========== FT_WRITE ==========\n");
 
-    // Test normal sur stdout
+    // Test sur stdout
     printf("ft_write sur stdout : ");
     ret = ft_write(1, "Hello from ft_write!\n", 21);
     printf("ft_write retourne   : %ld\n", ret);
 
     printf("write sur stdout    : ");
-    my_ret = write(1, "Hello from write!\n", 18);
-    printf("write retourne      : %ld\n", my_ret);
+    ret = write(1, "Hello from write!\n", 18);
+    printf("write retourne      : %ld\n", ret);
 
     // Test erreur fd invalide
-    errno = 0;
-    ret = ft_write(-1, "test", 5);
-    printf("ft_write(-1) retourne : %ld\n", ret);
-    printf("errno ft_write        : %d\n", errno);
+    ret = ft_write(-1, "test", 4);
+    printf("ft_write fd=-1      : %ld | errno : %d\n", ret, errno);
+    ret = write(-1, "test", 4);
+    printf("write fd=-1         : %ld | errno : %d\n", ret, errno);
 
-    errno = 0;
-    my_ret = write(-1, "test", 5);
-    printf("write(-1) retourne    : %ld\n", my_ret);
-    printf("errno write           : %d\n", errno);
+    // ===== FT_READ =====
+    printf("\n========== FT_READ ==========\n");
 
-    // ===== ft_read =====
-    printf("\n========== ft_read ==========\n");
-
-    // Test normal sur stdin
-    printf("Ecris quelque chose pour ft_read : \n");
+    // Test lecture normale
+    printf("Ecris quelque chose pour ft_read : ");
+    fflush(stdout);
+    memset(buf, 0, 100);
     ret = ft_read(0, buf, 100);
-    buf[ret] = '\0';
     printf("ft_read retourne : %ld\n", ret);
     printf("ft_read lu       : %s\n", buf);
 
-    printf("Ecris quelque chose pour read : \n");
-    my_ret = read(0, my_buf, 100);
-    my_buf[my_ret] = '\0';
-    printf("read retourne    : %ld\n", my_ret);
-    printf("read lu          : %s\n", my_buf);
+    printf("Ecris quelque chose pour read    : ");
+    fflush(stdout);
+    memset(buf, 0, 100);
+    ret = read(0, buf, 100);
+    printf("read retourne    : %ld\n", ret);
+    printf("read lu          : %s\n", buf);
 
     // Test erreur fd invalide
-    errno = 0;
     ret = ft_read(-1, buf, 100);
-    printf("ft_read(-1) retourne : %ld\n", ret);
-    printf("errno ft_read        : %d\n", errno);
+    printf("ft_read fd=-1    : %ld | errno : %d\n", ret, errno);
+    ret = read(-1, buf, 100);
+    printf("read fd=-1       : %ld | errno : %d\n", ret, errno);
 
-    errno = 0;
-    my_ret = read(-1, my_buf, 100);
-    printf("read(-1) retourne    : %ld\n", my_ret);
-    printf("errno read           : %d\n", errno);
-
-    // ===== ft_strdup =====
-    printf("\n========== ft_strdup ==========\n");
+    // ===== FT_STRDUP =====
+    printf("\n========== FT_STRDUP ==========\n");
 
     // Test normal
     dup = ft_strdup(str);
-    my_dup = strdup(str);
-    printf("ft_strdup(\"Hello, World!\") : %s\n", dup);
-    printf("strdup(\"Hello, World!\")    : %s\n", my_dup);
+    printf("ft_strdup(\"%s\") : %s\n", str, dup);
     free(dup);
-    free(my_dup);
+
+    dup = strdup(str);
+    printf("strdup(\"%s\")    : %s\n", str, dup);
+    free(dup);
 
     // Test chaine vide
     dup = ft_strdup("");
-    my_dup = strdup("");
-    printf("ft_strdup(\"\") : [%s]\n", dup);
-    printf("strdup(\"\")    : [%s]\n", my_dup);
+    printf("ft_strdup(\"\")   : [%s]\n", dup);
     free(dup);
-    free(my_dup);
+
+    dup = strdup("");
+    printf("strdup(\"\")      : [%s]\n", dup);
+    free(dup);
 
     // Test chaine d'un seul caractere
     dup = ft_strdup("a");
-    my_dup = strdup("a");
-    printf("ft_strdup(\"a\") : %s\n", dup);
-    printf("strdup(\"a\")    : %s\n", my_dup);
+    printf("ft_strdup(\"a\")  : %s\n", dup);
     free(dup);
-    free(my_dup);
+
+    dup = strdup("a");
+    printf("strdup(\"a\")     : %s\n", dup);
+    free(dup);
 
     printf("\n================================\n");
     return (0);
